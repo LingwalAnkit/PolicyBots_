@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
@@ -6,6 +6,16 @@ import { ChevronDown } from 'lucide-react';
 import { ThemeToggle } from "../section/themeToggel";
 import { useTheme } from '../app/context/themeContext';
 import { validateEmail, validatePassword } from '../lib/validation';
+import clsx from 'clsx';
+
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  age: string;
+  mobileNo: string;
+}
 
 export const Header = () => {
   const { darkMode } = useTheme();
@@ -18,7 +28,6 @@ export const Header = () => {
     closeSignUpModal();
     setIsLoginModalOpen(true);
   };
-  //Thoda sa sanyam ka edits  
   const closeLoginModal = () => setIsLoginModalOpen(false);
 
   return (
@@ -52,15 +61,20 @@ export const Header = () => {
   );
 };
 
-const NavItem = ({ label, items }) => {
+interface NavItemProps {
+  label: string;
+  items: string[];
+}
+
+const NavItem = ({ label, items }: NavItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const timeoutRef = useRef(null);
-  const buttonRef = useRef(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [dropdownWidth, setDropdownWidth] = useState(0);
   const { darkMode } = useTheme();
 
   const handleMouseEnter = () => {
-    clearTimeout(timeoutRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setIsOpen(true);
   };
 
@@ -112,8 +126,13 @@ const NavItem = ({ label, items }) => {
   );
 };
 
-const SignUpModal = ({ onClose, openLoginModal }) => {
-  const [formData, setFormData] = useState({
+interface SignUpModalProps {
+  onClose: () => void;
+  openLoginModal: () => void;
+}
+
+const SignUpModal = ({ onClose, openLoginModal }: SignUpModalProps) => {
+  const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -122,17 +141,17 @@ const SignUpModal = ({ onClose, openLoginModal }) => {
     mobileNo: '',
   });
 
-  const [formErrors, setFormErrors] = useState({});
+  const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
   const [loading, setLoading] = useState(false);
   const { darkMode } = useTheme();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const validateForm = (error) => {
-    let errors = {};
+  const validateForm = () => {
+    let errors: Partial<FormData> = {};
     if (!formData.firstName) errors.firstName = 'First Name is required';
     if (!formData.lastName) errors.lastName = 'Last Name is required';
     if (!validateEmail(formData.email)) errors.email = 'Invalid email';
@@ -143,7 +162,7 @@ const SignUpModal = ({ onClose, openLoginModal }) => {
     return errors;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateForm();
     setFormErrors(errors);
@@ -187,108 +206,79 @@ const SignUpModal = ({ onClose, openLoginModal }) => {
             <div className="mb-4" key={field}>
               <label className="block mb-1">{field.charAt(0).toUpperCase() + field.slice(1)}</label>
               <input
-                type={field === 'email' ? 'email' : field === 'password' ? 'password' : field === 'age' ? 'number' : 'text'}
+                type={field === 'email' ? 'email' : field === 'password' ? 'password' : 'text'}
                 name={field}
-                className={`w-full border rounded px-2 py-1 ${darkMode ? 'bg-gray-700 text-white' : 'text-black'}`}
-                value={formData[field]}
+                value={formData[field as keyof FormData]}
                 onChange={handleInputChange}
+                className={`w-full border px-4 py-2 rounded ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-100'}`}
               />
-              {formErrors[field] && <p className="text-red-500 text-sm">{formErrors[field]}</p>}
+              {formErrors[field as keyof FormData] && <p className="text-red-500 text-sm mt-1">{formErrors[field as keyof FormData]}</p>}
             </div>
           ))}
-          <div className="flex justify-end">
+          <div className="flex justify-between">
             <button
               type="submit"
+              className={`text-xl mb-2 border px-4 py-2 rounded font-medium transition duration-300 ease-in-out ${darkMode ? 'border-gray-400 text-gray-400 hover:bg-gray-600 hover:text-gray-100' : 'border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white'}`}
               disabled={loading}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
             >
-              {loading ? 'Registering...' : 'Sign Up'}
+              {loading ? 'Signing Up...' : 'Sign-Up'}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className={`ml-2 border px-4 py-2 rounded hover:bg-gray-100 ${darkMode ? 'border-gray-500 text-gray-500 hover:bg-gray-700' : 'border-gray-500 text-gray-500'}`}
+              className="border border-red-500 text-red-500 px-4 py-2 rounded font-medium transition duration-300 ease-in-out hover:bg-red-500 hover:text-white dark:border-gray-400 dark:text-gray-400 dark:hover:bg-gray-400 dark:hover:text-white"
             >
               Cancel
             </button>
           </div>
         </form>
+        <button onClick={onClose} className="absolute top-2 right-2">
+          X
+        </button>
       </div>
     </div>
   );
 };
 
-const LoginModal = ({ onClose }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+interface LoginModalProps {
+  onClose: () => void;
+}
+
+const LoginModal = ({ onClose }: LoginModalProps) => {
   const { darkMode } = useTheme();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        alert('Login successful');
-        onClose();
-        window.location.href = '/dashboard';
-      } else {
-        alert('Error logging in');
-      }
-    } catch (error) {
-      alert('An error occurred during login');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className={`p-6 rounded-lg shadow-lg w-1/3 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
-        <h2 className="text-xl font-bold mt-2 mb-2">Login</h2>
-        <form onSubmit={handleSubmit}>
+        <h2 className="text-xl font-bold mt-2 mb-4">Login</h2>
+        <form>
           <div className="mb-4">
             <label className="block mb-1">Email</label>
-            <input
-              type="email"
-              className={`w-full border rounded px-2 py-1 ${darkMode ? 'bg-gray-700 text-white' : 'text-black'}`}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <input type="email" className={`w-full border px-4 py-2 rounded ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-100'}`} />
           </div>
           <div className="mb-4">
             <label className="block mb-1">Password</label>
-            <input
-              type="password"
-              className={`w-full border rounded px-2 py-1 ${darkMode ? 'bg-gray-700 text-white' : 'text-black'}`}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <input type="password" className={`w-full border px-4 py-2 rounded ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-100'}`} />
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-between gap-2">
             <button
               type="submit"
-              disabled={loading}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              className={`w-full border px-4 py-2 rounded font-medium transition duration-300 ease-in-out ${darkMode ? 'border-gray-400 text-gray-400 hover:bg-gray-600 hover:text-gray-100' : 'border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white'}`}
             >
-              {loading ? 'Logging in...' : 'Login'}
+              Login
             </button>
             <button
               type="button"
               onClick={onClose}
-              className={`ml-2 border px-4 py-2 rounded hover:bg-gray-100 ${darkMode ? 'border-gray-500 text-gray-500 hover:bg-gray-700' : 'border-gray-500 text-gray-500'}`}
+              className="border border-red-500 text-red-500 px-4 py-2 rounded font-medium transition duration-300 ease-in-out hover:bg-red-500 hover:text-white dark:border-gray-400 dark:text-gray-400 dark:hover:bg-gray-400 dark:hover:text-white"
             >
               Cancel
             </button>
           </div>
         </form>
+        <button onClick={onClose} className="absolute top-2 right-2">
+          X
+        </button>
       </div>
     </div>
   );

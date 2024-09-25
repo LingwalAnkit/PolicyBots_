@@ -110,7 +110,7 @@ const SectionOne = () => {
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold mt-4 mb-2">What makes</h2>
         <h1 className="text-3xl font-bold text-blue-800 mb-2">Policy Bots one of</h1>
-        <h2 className="text-2xl font-bold mb-2">India's favourite places</h2>
+        <h2 className="text-2xl font-bold mb-2">India favourite places</h2>
         <p className="text-xl">to buy insurance?</p>
       </div>
     </div>

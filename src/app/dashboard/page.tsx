@@ -87,7 +87,7 @@ const Dashboard = () => {
             <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold">You don't have any policies yet!</h2>
+                  <h2 className="text-lg font-semibold">You do not have any policies yet!</h2>
                   <p className="text-gray-600">Buy an insurance policy to protect your family & assets now</p>
                 </div>
                 <button className="font-bold border border-blue-400 text-blue-400 px-4 py-1 rounded mt-2 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white">Explore</button>
@@ -96,7 +96,7 @@ const Dashboard = () => {
             
             <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6">
               <h2 className="text-lg font-semibold mb-4">Add your Car/Bike</h2>
-              <p className="text-gray-600 mb-4">We will add this to your profile. Get timely renewal reminders & save up to 85% on your vehicle's insurance</p>
+              <p className="text-gray-600 mb-4">We will add this to your profile. Get timely renewal reminders & save up to 85% on your vehicle insurance</p>
               <div className="flex space-x-4 mb-4">
                 <span className="flex items-center border border-gray-300 bg-blue-200 dark:bg-gray-500 dark:border-gray-500 p-2 rounded ">
                   <Bell className="mr-1" size={16} /> Get up to 85% discount

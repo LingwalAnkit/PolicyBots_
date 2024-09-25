@@ -70,7 +70,7 @@ const Policies = () => {
                     <PlusIcon className="text-gray-400" size={24} />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-blue-900 ">You don't have any policies yet!</h3>
+                    <h3 className="text-lg font-semibold text-blue-900 ">You do not have any policies yet!</h3>
                     <p className="text-sm text-gray-600">Buy an insurance policy to protect your family & assets now</p>
                   </div>
                 </div>

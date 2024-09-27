@@ -44,6 +44,12 @@ const Dashboard = () => {
                   <BadgeDollarSign className="mr-2" size={20} />
                   Your Transactions
                 </button>
+                <Link href="/profile">
+                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                  <User className="mr-2" size={20} />
+                  Profile
+                </button>
+                </Link>
               </nav>
             </div>
           </div>

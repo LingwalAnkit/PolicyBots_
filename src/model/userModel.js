@@ -27,8 +27,8 @@ const userSchema = new mongoose.Schema({
     required: true,
     min: 0,
   },
-  MobileNo: {
-    type: Number,
+  mobileNo: {  
+    type: String,
     required: true,
     trim: true,
   },
@@ -39,6 +39,7 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
+
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bell, User, ChevronRight, ClipboardList, Info, BadgeDollarSign, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ThemeToggle } from '../../section/themeToggel';
 import Link from 'next/link';
@@ -10,15 +10,26 @@ const ProfilePage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const steps = ['Personal Information', 'Nominee details', 'Assets', 'Declaration and Consent'];
 
-  const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  const nextStep = (values) => {
+    // Save current step data to localStorage
+
+
+    // Move to the next step
+    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  };
+
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
 
+  
   const handleSubmit = (values, { setSubmitting }) => {
     if (currentStep === steps.length - 1) {
+      localStorage.setItem(`step-${currentStep}`, JSON.stringify(values));
       console.log('Form submitted', values);
       // Handle form submission
     } else {
-      nextStep();
+      console.log(currentStep, steps.length);
+
+      nextStep(values);
     }
     setSubmitting(false);
   };
@@ -189,7 +200,7 @@ const ProfilePage = () => {
             <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
               <h1 className="text-2xl font-bold mb-2">Hi, Ankit! 👋</h1>
               <p className="text-gray-600 dark:text-gray-300">How have you been?</p>
-              
+
               <nav className="mt-6 space-y-2">
                 <Link href="/dashboard">
                   <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
@@ -238,12 +249,27 @@ const ProfilePage = () => {
               <h2 className="text-xl font-semibold mb-4 dark:text-white">{steps[currentStep]}</h2>
 
               {/* Form */}
+
               <Formik
-                initialValues={initialValues}
+                initialValues={initialValues[currentStep]}
                 validationSchema={validationSchemas[currentStep]}
                 onSubmit={handleSubmit}
+                enableReinitialize={true} // To ensure form resets when currentStep changes
               >
-                {({ errors, touched, isSubmitting }) => (
+              
+                {({ errors, touched, isSubmitting, setValues }) => {
+                  
+
+                  useEffect(() => {
+                    const savedData = localStorage.getItem(`step-${currentStep}`);
+                    if (savedData) {
+                      const parsedData = JSON.parse(savedData);
+                      setValues(parsedData);  // Populate Formik form with retrieved data
+                    }
+                  }, [currentStep, setValues]);  // Add setValues to the dependency array
+
+
+                  return (
                   <Form className="space-y-6">
                     {renderStepContent(currentStep, errors, touched)}
 
@@ -265,7 +291,7 @@ const ProfilePage = () => {
                       </button>
                     </div>
                   </Form>
-                )}
+                )}}
               </Formik>
             </div>
           </div>

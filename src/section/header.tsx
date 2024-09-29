@@ -7,6 +7,8 @@ import { ThemeToggle } from "../section/themeToggel";
 import { useTheme } from '../app/context/themeContext';
 import { validateEmail, validatePassword } from '../lib/validation';
 import clsx from 'clsx';
+import ChatbotIntegration from '../lib/chatbot';
+import { useRouter } from 'next/router';
 
 interface FormData {
   firstName: string;
@@ -17,7 +19,11 @@ interface FormData {
   mobileNo: string;
 }
 
-export const Header = () => {
+interface HeaderProps {
+  onSuccessfulAuth: (userData: { firstName: string; lastName: string }) => void;
+}
+
+export const Header = ({ onSuccessfulAuth }: HeaderProps) => {
   const { darkMode } = useTheme();
   const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -30,34 +36,59 @@ export const Header = () => {
   };
   const closeLoginModal = () => setIsLoginModalOpen(false);
 
+  const openChatbot = () => {
+    if (window.botpressWebChat) {
+      window.botpressWebChat.sendEvent({ type: 'show' });
+    } else {
+      console.error('Botpress WebChat is not available');
+      alert('Chat is currently unavailable. Please try again later.');
+    }
+  };
+
+  const handleSuccessfulAuth = (userData: { firstName: string; lastName: string }) => {
+    localStorage.setItem('user', JSON.stringify(userData));
+    onSuccessfulAuth(userData);
+  };
   return (
-    <header className={`sticky top-0 z-20 shadow-sm ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex flex-col items-center">
-            <h1>Policy Bots</h1>
-            <span className="ml-2 text-xs text-blue-600 font-semibold">HAR BOT HOGA INSURED</span>
-          </div>
-          <nav className="hidden md:flex items-center space-x-6">
-            <NavItem label="Insurance Products" items={['Car Insurance', 'Health Insurance', 'Life Insurance']} />
-            <NavItem label="Renew Your Policy" items={['Car Policy', 'Health Policy', 'Life Policy']} />
-            <NavItem label="Claim" items={['File a Claim', 'Track Claim', 'Claim FAQs']} />
-            <NavItem label="FAQs" items={['Contact Us', 'FAQs', 'Help Center']} />
-            <Link href="#">
-              <button className={`border border-blue-500 text-blue-500 px-4 py-2 rounded font-medium transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white ${darkMode ? 'dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-white' : ''}`}>
+    <>
+      <ChatbotIntegration />
+      <header className={`sticky top-0 z-20 shadow-sm ${darkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex flex-col items-center">
+              <h1>Policy Bots</h1>
+              <span className="ml-2 text-xs text-blue-600 font-semibold">HAR BOT HOGA INSURED</span>
+            </div>
+            <nav className="hidden md:flex items-center space-x-6">
+              <NavItem label="Insurance Products" items={['Car Insurance', 'Health Insurance', 'Life Insurance']} />
+              <NavItem label="Renew Your Policy" items={['Car Policy', 'Health Policy', 'Life Policy']} />
+              <NavItem label="Claim" items={['File a Claim', 'Track Claim', 'Claim FAQs']} />
+              <NavItem label="FAQs" items={['Contact Us', 'FAQs', 'Help Center']} />
+              <button onClick={openChatbot} className={`border border-blue-500 text-blue-500 px-4 py-2 rounded font-medium transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white ${darkMode ? 'dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-white' : ''}`}>
                 Chat Bot
               </button>
-            </Link>
-            <button onClick={openSignUpModal} className={`border border-blue-500 text-blue-500 px-4 py-2 rounded font-medium transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white ${darkMode ? 'dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-white' : ''}`}>
-              Sign-Up
-            </button>
-            <ThemeToggle />
-          </nav>
+              <button onClick={openSignUpModal} className={`border border-blue-500 text-blue-500 px-4 py-2 rounded font-medium transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white ${darkMode ? 'dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-white' : ''}`}>
+                Sign-Up
+              </button>
+              <ThemeToggle />
+            </nav>
+          </div>
         </div>
-      </div>
-      {isSignUpModalOpen && <SignUpModal onClose={closeSignUpModal} openLoginModal={openLoginModal} />}
-      {isLoginModalOpen && <LoginModal onClose={closeLoginModal} />}
-    </header>
+        {isSignUpModalOpen && (
+          <SignUpModal 
+            onClose={closeSignUpModal} 
+            openLoginModal={openLoginModal} 
+            onSuccessfulSignUp={handleSuccessfulAuth}
+          />
+        )}
+        {isLoginModalOpen && (
+          <LoginModal 
+            onClose={closeLoginModal} 
+            onSuccessfulLogin={handleSuccessfulAuth}
+          />
+        )}
+      </header>
+    </>
   );
 };
 
@@ -129,9 +160,10 @@ const NavItem = ({ label, items }: NavItemProps) => {
 interface SignUpModalProps {
   onClose: () => void;
   openLoginModal: () => void;
+  onSuccessfulSignUp: (userData: { firstName: string; lastName: string }) => void;
 }
 
-const SignUpModal = ({ onClose, openLoginModal }: SignUpModalProps) => {
+const SignUpModal = ({ onClose, openLoginModal, onSuccessfulSignUp }: SignUpModalProps) => {
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -179,8 +211,8 @@ const SignUpModal = ({ onClose, openLoginModal }: SignUpModalProps) => {
         const result = await response.json();
         if (result.success) {
           alert('User registered successfully');
+          onSuccessfulSignUp({ firstName: formData.firstName, lastName: formData.lastName });
           onClose();
-          window.location.href = '/dashboard';
         } else {
           alert('Error registering user');
         }
@@ -242,9 +274,10 @@ const SignUpModal = ({ onClose, openLoginModal }: SignUpModalProps) => {
 
 interface LoginModalProps {
   onClose: () => void;
+  onSuccessfulLogin: (userData: { firstName: string; lastName: string }) => void;
 }
 
-const LoginModal = ({ onClose }: LoginModalProps) => {
+const LoginModal = ({ onClose, onSuccessfulLogin }: LoginModalProps) => {
   const { darkMode } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -276,9 +309,13 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Login successful');
+        // Store user data in localStorage
+        localStorage.setItem('user', JSON.stringify({
+          firstName: data.firstName,
+          lastName: data.lastName
+        }));
+        onSuccessfulLogin({ firstName: data.firstName, lastName: data.lastName });
         onClose();
-        window.location.href = '/dashboard';
       } else {
         setError(data.message || 'Login failed');
       }

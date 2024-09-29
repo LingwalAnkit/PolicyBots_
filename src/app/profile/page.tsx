@@ -1,19 +1,31 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState,  useEffect  } from 'react';
 import { Bell, User, ChevronRight, ClipboardList, Info, BadgeDollarSign, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ThemeToggle } from '../../section/themeToggel';
 import Link from 'next/link';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { validationSchemas, initialValues } from './formvalidation';
+import useFormPersistence from './useFormPersistence';
+import PDFDownloadButton from './PDFDownloadButton';
 
 const ProfilePage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const steps = ['Personal Information', 'Nominee details', 'Assets', 'Declaration and Consent'];
+  const [persistedValues, setPersistedValues] = useFormPersistence('profileFormData', initialValues);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
 
   const handleSubmit = (values, { setSubmitting }) => {
+    setPersistedValues(values);
     if (currentStep === steps.length - 1) {
       console.log('Form submitted', values);
       // Handle form submission
@@ -172,112 +184,114 @@ const ProfilePage = () => {
     }
   };
 
-  return (
-    <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
-      <header className="bg-white dark:bg-gray-800 pb-4 pt-1 flex justify-between items-center">
-        <div className="flex flex-col items-center pt-2 px-16">
-          <h1 className="dark:text-white">Policy Bots</h1>
-          <span className="ml-2 text-xs text-blue-600 font-semibold">HAR BOT HOGA INSURED</span>
-        </div>
-        <ThemeToggle />
-      </header>
+return (
+  <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
+    <header className="bg-white dark:bg-gray-800 pb-4 pt-1 flex justify-between items-center">
+      <div className="flex flex-col items-center pt-2 px-16">
+        <h1 className="dark:text-white">Policy Bots</h1>
+        <span className="ml-2 text-xs text-blue-600 font-semibold">HAR BOT HOGA INSURED</span>
+      </div>
+      <ThemeToggle />
+    </header>
 
-      <main className="container p-0 pt-8">
-        <div className="flex justify-between gap-8 -mx-16">
-          {/* Sidebar */}
-          <div className="w-1/3">
-            <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
-              <h1 className="text-2xl font-bold mb-2">Hi, Ankit! 👋</h1>
-              <p className="text-gray-600 dark:text-gray-300">How have you been?</p>
-              
-              <nav className="mt-6 space-y-2">
-                <Link href="/dashboard">
-                  <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
-                    <Bell className="mr-2" size={20} />
-                    Dashboard
-                  </button>
-                </Link>
-                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
-                  <User className="mr-2" size={20} />
-                  Your policies
+    <main className="container p-0 pt-8">
+      <div className="flex justify-between gap-8 -mx-16">
+        {/* Sidebar */}
+        <div className="w-1/3">
+          <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
+          <h1 className="text-2xl font-bold mb-2 dark:text-white">
+              Hi, {user ? `${user.firstName} ${user.lastName}` : 'Guest'}! 👋
+          </h1>
+            <p className="text-gray-600 dark:text-gray-300">How have you been?</p>
+            
+            <nav className="mt-6 space-y-2">
+                <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                  <Bell className="mr-2" size={20} />
+                  Dashboard
                 </button>
-                <Link href="/policies">
-                  <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
-                    <ClipboardList className="mr-2" size={20} />
-                    All policies
+                <Link href= "./AllPolicies" >
+                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                    <User className="mr-2" size={20} />
+                    All Policies  
                   </button>
                 </Link>
-                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                <Link href="/policies">
+                  <button className="w-full text-left mb-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                    <ClipboardList className="mr-2" size={20} />
+                    Your policies
+                  </button>
+                </Link>
+                <button className="w-full text-left mb-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
                   <Info className="mr-2" size={20} />
                   Get help
                 </button>
-                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
                   <BadgeDollarSign className="mr-2" size={20} />
                   Your Transactions
                 </button>
-                <button className="w-full text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600 dark:text-gray-800 rounded flex items-center">
+                <Link href="/profile">
+                <button className="w-full mt-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-gray-800 rounded flex items-center">
                   <User className="mr-2" size={20} />
                   Profile
                 </button>
+                </Link>
               </nav>
-            </div>
-          </div>
-
-          {/* Main content */}
-          <div className="w-2/3">
-            <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
-              <h1 className="text-2xl font-bold mb-2 dark:text-white">Profile</h1>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">Complete your profile information</p>
-
-              {/* Progress bar */}
-              <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6 dark:bg-gray-700">
-                <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${(currentStep + 1) / steps.length * 100}%` }}></div>
-              </div>
-
-              {/* Step title */}
-              <h2 className="text-xl font-semibold mb-4 dark:text-white">{steps[currentStep]}</h2>
-
-              {/* Form */}
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchemas[currentStep]}
-                onSubmit={handleSubmit}
-              >
-                {({ errors, touched, isSubmitting }) => (
-                  <Form className="space-y-6">
-                    {renderStepContent(currentStep, errors, touched)}
-
-                    {/* Navigation buttons */}
-                    <div className="flex justify-between mt-6">
-                      <button
-                        type="button"
-                        onClick={prevStep}
-                        className={`px-4 py-2 flex items-center ${currentStep === 0 ? 'invisible' : ''}`}
-                      >
-                        <ArrowLeft className="mr-2" size={20} /> Previous
-                      </button>
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
-                      >
-                        {currentStep === steps.length - 1 ? 'Submit' : 'Next'} {currentStep !== steps.length - 1 && <ArrowRight className="ml-2" size={20} />}
-                      </button>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </div>
           </div>
         </div>
-      </main>
 
-      <footer className="text-center p-4 text-sm text-gray-600 dark:text-gray-400">
-        <a href="#" className="mr-4 hover:text-gray-800 dark:hover:text-gray-200">Disclaimer</a>
-        <a href="#" className="hover:text-gray-800 dark:hover:text-gray-200">Privacy policy</a>
-      </footer>
-    </div>
-  );
+        <div className="w-2/3">
+          <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
+            <h1 className="text-2xl font-bold mb-2 dark:text-white">Profile</h1>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">Complete your profile information</p>
+
+            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6 dark:bg-gray-700">
+              <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${(currentStep + 1) / steps.length * 100}%` }}></div>
+            </div>
+            <h2 className="text-xl font-semibold mb-4 dark:text-white">{steps[currentStep]}</h2>
+
+            <Formik
+              initialValues={persistedValues}
+              validationSchema={validationSchemas[currentStep]}
+              onSubmit={handleSubmit}
+              enableReinitialize
+            >
+              {({ errors, touched, isSubmitting }) => (
+                <Form className="space-y-6">
+                  {renderStepContent(currentStep, errors, touched)}
+
+                  <div className="flex justify-between mt-6">
+                    <button
+                      type="button"
+                      onClick={prevStep}
+                      className={`px-4 py-2 flex items-center ${currentStep === 0 ? 'invisible' : ''}`}
+                    >
+                      <ArrowLeft className="mr-2" size={20} /> Previous
+                    </button>
+                    {currentStep === steps.length - 1 && (
+                        <PDFDownloadButton />
+                      )}
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
+                    >
+                      {currentStep === steps.length - 1 ? 'Submit' : 'Next'} {currentStep !== steps.length - 1 && <ArrowRight className="ml-2" size={20} />}
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer className="text-center p-4 text-sm text-gray-600 dark:text-gray-400">
+      <a href="#" className="mr-4 hover:text-gray-800 dark:hover:text-gray-200">Disclaimer</a>
+      <a href="#" className="hover:text-gray-800 dark:hover:text-gray-200">Privacy policy</a>
+    </footer>
+  </div>
+);
 };
 
 export default ProfilePage;

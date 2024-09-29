@@ -22,30 +22,32 @@ const Dashboard = () => {
               <p className="text-gray-600">How have you been?</p>
               
               <nav className="mt-6 space-y-2">
-                <button className="w-full text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-gray-800 rounded flex items-center">
+                <button className="w-full mb-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-gray-800 rounded flex items-center">
                   <Bell className="mr-2" size={20} />
                   Dashboard
                 </button>
-                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
-                  <User className="mr-2" size={20} />
-                  Your policies
-                </button>
-                <Link href="/policies">
-                  <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
-                    <ClipboardList className="mr-2" size={20} />
-                    All policies
+                <Link href= "./AllPolicies" >
+                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                    <User className="mr-2" size={20} />
+                    All Policies  
                   </button>
                 </Link>
-                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                <Link href="/policies">
+                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                    <ClipboardList className="mr-2" size={20} />
+                    Your policies
+                  </button>
+                </Link>
+                <button className="w-full text-left mb-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
                   <Info className="mr-2" size={20} />
                   Get help
                 </button>
-                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
                   <BadgeDollarSign className="mr-2" size={20} />
                   Your Transactions
                 </button>
                 <Link href="/profile">
-                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                <button className="w-full mt-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
                   <User className="mr-2" size={20} />
                   Profile
                 </button>

@@ -27,7 +27,7 @@
       ".next/types/**/*.ts",
       "**/*.ts",
       "**/*.tsx"
-, "src/lib/database.js", "src/model/userModel.js"    ],
+, "src/lib/database.js", "src/model/userModel.js", "src/app/profile/PDFDocument.ts"    ],
     "exclude": [
       "node_modules"
     ]

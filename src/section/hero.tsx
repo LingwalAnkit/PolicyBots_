@@ -104,19 +104,22 @@ export const Hero = () => {
         <InsuranceSlider />
       </div>
       <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
-        {insuranceTypes.map((type, index) => (
-          <div key={index} className="onClick={openSignUpModal} bg-gray-100 dark:bg-gray-600 p-4 rounded-lg text-center">
-            <div className="text-3xl mb-2">{type.icon}</div>
-            <div className="text-sm font-medium">{type.name}</div>
-            {type.discount && (
-              <div className="text-xs text-green-600 mt-1">{type.discount}</div>
-            )}
-            {type.label && (
-              <div className="text-xs text-blue-600 mt-1">{type.label}</div>
-            )}
-          </div>
-        ))}
-      </div>
+  {insuranceTypes.map((type, index) => (
+    <div
+      key={index}
+      className="bg-gray-100 dark:bg-gray-600 p-4 rounded-lg text-center transition-transform duration-300 ease-in-out transform hover:scale-105"
+    >
+      <div className="text-3xl mb-2">{type.icon}</div>
+      <div className="text-sm font-medium">{type.name}</div>
+      {type.discount && (
+        <div className="text-xs text-green-600 mt-1">{type.discount}</div>
+      )}
+      {type.label && (
+        <div className="text-xs text-blue-600 mt-1">{type.label}</div>
+      )}
+    </div>
+  ))}
+</div>
       <div className="mt-8 text-center">
         <button className="border border-blue-500 text-blue-500 dark:border-gray-400 dark:text-gray-400 px-4 py-2 rounded font-medium transition duration-300 ease-in-out dark:hover:bg-gray-600 dark:hover:text-gray-100 hover:bg-blue-500 hover:text-white">
           View all products

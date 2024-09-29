@@ -26,8 +26,11 @@
         "ejs": "^3.1.10",
         "env": "^0.0.2",
         "express": "^4.19.2",
+<<<<<<< HEAD
         "file-saver": "^2.0.5",
         "formidable": "^3.5.1",
+=======
+>>>>>>> f0d3047896654f5d4ba1b48843c99b7735a9b8eb
         "formik": "^2.4.6",
         "framer-motion": "^11.5.5",
         "jsonwebtoken": "^9.0.2",
@@ -42,7 +45,10 @@
         "react-icon": "^1.0.0",
         "react-icons": "^5.3.0",
         "recharts": "^2.12.7",
+<<<<<<< HEAD
         "tesseract.js": "^5.1.1",
+=======
+>>>>>>> f0d3047896654f5d4ba1b48843c99b7735a9b8eb
         "yup": "^1.4.0"
     },
     "devDependencies": {

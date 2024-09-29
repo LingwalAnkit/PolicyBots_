@@ -1,5 +1,9 @@
 'use client'
+<<<<<<< HEAD
 import React, { useState,  useEffect  } from 'react';
+=======
+import React, { useEffect, useState } from 'react';
+>>>>>>> f0d3047896654f5d4ba1b48843c99b7735a9b8eb
 import { Bell, User, ChevronRight, ClipboardList, Info, BadgeDollarSign, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ThemeToggle } from '../../section/themeToggel';
 import Link from 'next/link';
@@ -21,16 +25,27 @@ const ProfilePage = () => {
     }
   }, []);
 
-  const nextStep = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  const nextStep = (values) => {
+    // Save current step data to localStorage
+
+
+    // Move to the next step
+    setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
+  };
+
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
 
+  
   const handleSubmit = (values, { setSubmitting }) => {
     setPersistedValues(values);
     if (currentStep === steps.length - 1) {
+      localStorage.setItem(`step-${currentStep}`, JSON.stringify(values));
       console.log('Form submitted', values);
       // Handle form submission
     } else {
-      nextStep();
+      console.log(currentStep, steps.length);
+
+      nextStep(values);
     }
     setSubmitting(false);
   };
@@ -194,6 +209,7 @@ return (
       <ThemeToggle />
     </header>
 
+<<<<<<< HEAD
     <main className="container p-0 pt-8">
       <div className="flex justify-between gap-8 -mx-16">
         {/* Sidebar */}
@@ -208,6 +224,26 @@ return (
                 <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
                   <Bell className="mr-2" size={20} />
                   Dashboard
+=======
+      <main className="container p-0 pt-8">
+        <div className="flex justify-between gap-8 -mx-16">
+          {/* Sidebar */}
+          <div className="w-1/3">
+            <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
+              <h1 className="text-2xl font-bold mb-2">Hi, Ankit! 👋</h1>
+              <p className="text-gray-600 dark:text-gray-300">How have you been?</p>
+
+              <nav className="mt-6 space-y-2">
+                <Link href="/dashboard">
+                  <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                    <Bell className="mr-2" size={20} />
+                    Dashboard
+                  </button>
+                </Link>
+                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                  <User className="mr-2" size={20} />
+                  Your policies
+>>>>>>> f0d3047896654f5d4ba1b48843c99b7735a9b8eb
                 </button>
                 <Link href= "./AllPolicies" >
                   <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
@@ -236,6 +272,72 @@ return (
                 </button>
                 </Link>
               </nav>
+<<<<<<< HEAD
+=======
+            </div>
+          </div>
+
+          {/* Main content */}
+          <div className="w-2/3">
+            <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
+              <h1 className="text-2xl font-bold mb-2 dark:text-white">Profile</h1>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">Complete your profile information</p>
+
+              {/* Progress bar */}
+              <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6 dark:bg-gray-700">
+                <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${(currentStep + 1) / steps.length * 100}%` }}></div>
+              </div>
+
+              {/* Step title */}
+              <h2 className="text-xl font-semibold mb-4 dark:text-white">{steps[currentStep]}</h2>
+
+              {/* Form */}
+
+              <Formik
+                initialValues={initialValues[currentStep]}
+                validationSchema={validationSchemas[currentStep]}
+                onSubmit={handleSubmit}
+                enableReinitialize={true} // To ensure form resets when currentStep changes
+              >
+              
+                {({ errors, touched, isSubmitting, setValues }) => {
+                  
+
+                  useEffect(() => {
+                    const savedData = localStorage.getItem(`step-${currentStep}`);
+                    if (savedData) {
+                      const parsedData = JSON.parse(savedData);
+                      setValues(parsedData);  // Populate Formik form with retrieved data
+                    }
+                  }, [currentStep, setValues]);  // Add setValues to the dependency array
+
+
+                  return (
+                  <Form className="space-y-6">
+                    {renderStepContent(currentStep, errors, touched)}
+
+                    {/* Navigation buttons */}
+                    <div className="flex justify-between mt-6">
+                      <button
+                        type="button"
+                        onClick={prevStep}
+                        className={`px-4 py-2 flex items-center ${currentStep === 0 ? 'invisible' : ''}`}
+                      >
+                        <ArrowLeft className="mr-2" size={20} /> Previous
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
+                      >
+                        {currentStep === steps.length - 1 ? 'Submit' : 'Next'} {currentStep !== steps.length - 1 && <ArrowRight className="ml-2" size={20} />}
+                      </button>
+                    </div>
+                  </Form>
+                )}}
+              </Formik>
+            </div>
+>>>>>>> f0d3047896654f5d4ba1b48843c99b7735a9b8eb
           </div>
         </div>
 

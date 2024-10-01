@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, Zap } from 'lucide-react';
+import { useTheme } from '../app/context/themeContext';
 
 const insuranceTypes = [
   { name: 'Term Life Insurance', icon: '🌂', discount: 'Upto 10% Discount' },
@@ -83,20 +84,21 @@ const InsuranceSlider = () => {
 };
 
 export const Hero = () => {
+  const { darkMode } = useTheme()
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="h-64 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-slate-50 mb-4">
             Let us find you <br />the Best Insurance
           </h1>
           <div className="flex items-center space-x-4 mb-4">
-            <div className="flex items-center text-purple-600">
+            <div className="flex items-center dark:text-[#A9D6E5] text-purple-600">
               <Zap size={20} className="mr-2" />
-              <span>50+ insurers with one of the best prices</span>
+              <span className='dark:text-[#A9D6E5]'>50+ insurers with one of the best prices</span>
             </div>
           </div>
-          <div className="flex items-center text-orange-500">
+          <div className="flex items-center dark:text-[#F1C40F] text-orange-500">
             <Zap size={20} className="mr-2" />
             <span>Quick, easy & hassle-free</span>
           </div>
@@ -110,12 +112,12 @@ export const Hero = () => {
       className="bg-gray-100 dark:bg-gray-600 p-4 rounded-lg text-center transition-transform duration-300 ease-in-out transform hover:scale-105"
     >
       <div className="text-3xl mb-2">{type.icon}</div>
-      <div className="text-sm font-medium">{type.name}</div>
+      <div className="text-sm dark:text-[#D1D5DB] font-medium">{type.name}</div>
       {type.discount && (
-        <div className="text-xs text-green-600 mt-1">{type.discount}</div>
+        <div className="text-xs dark:text-[#32CD32] text-green-600 mt-1">{type.discount}</div>
       )}
       {type.label && (
-        <div className="text-xs text-blue-600 mt-1">{type.label}</div>
+        <div className="text-xs text-blue-600 dark:text-[#A5F3FC] mt-1">{type.label}</div>
       )}
     </div>
   ))}

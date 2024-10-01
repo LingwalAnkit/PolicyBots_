@@ -15,17 +15,41 @@ def extract_data_from_pdf(pdf_file):
         for page in pdf_reader.pages:
             text += page.extract_text()
 
-        # Use regex to find name and email
-        name_match = re.search(r'Name:\s(.+)', text)
-        email_match = re.search(r'Email:\s(.+)', text)
+        # Define patterns for all fields
+        patterns = {
+            'fullName': r'fullName:\s*(.+)',
+            'dateOfBirth': r'dateOfBirth:\s*(.+)',
+            'gender': r'gender:\s*(.+)',
+            'address': r'address:\s*(.+)',
+            'aadhaarNumber': r'aadhaarNumber:\s*(.+)',
+            'panNumber': r'panNumber:\s*(.+)',
+            'mobileNumber': r'mobileNumber:\s*(.+)',
+            'email': r'email:\s*(.+)',
+            'maritalStatus': r'maritalStatus:\s*(.+)',
+            'occupation': r'occupation:\s*(.+)',
+            'incomeRange': r'incomeRange:\s*(.+)',
+            'policyPremiumFrequency': r'policyPremiumFrequency:\s*(.+)',
+            'nomineeName': r'nomineeName:\s*(.+)',
+            'nomineeRelationship': r'nomineeRelationship:\s*(.+)',
+            'nomineeDateOfBirth': r'nomineeDateOfBirth:\s*(.+)',
+            'vehicleRegistrationNumber': r'vehicleRegistrationNumber:\s*(.+)',
+            'vehicleModelMake': r'vehicleModelMake:\s*(.+)',
+            'vehicleManufactureYear': r'vehicleManufactureYear:\s*(.+)',
+            'landRegistrationNumber': r'landRegistrationNumber:\s*(.+)',
+            'landLocation': r'landLocation:\s*(.+)',
+            'landArea': r'landArea:\s*(.+)'
+        }
 
-        name = name_match.group(1) if name_match else ""
-        email = email_match.group(1) if email_match else ""
+        # Extract data for all fields
+        extracted_data = {}
+        for key, pattern in patterns.items():
+            match = re.search(pattern, text, re.IGNORECASE)
+            extracted_data[key] = match.group(1).strip() if match else ""
 
-        return name, email
+        return extracted_data
     except Exception as e:
         print(f"An error occurred: {str(e)}")
-        return None, None
+        return None
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -37,9 +61,9 @@ def upload_file():
     if file and file.filename.endswith('.pdf'):
         # Create a BytesIO object from the file data
         pdf_file = io.BytesIO(file.read())
-        name, email = extract_data_from_pdf(pdf_file)
-        if name is not None and email is not None:
-            return jsonify({'name': name, 'email': email}), 200
+        extracted_data = extract_data_from_pdf(pdf_file)
+        if extracted_data is not None:
+            return jsonify(extracted_data), 200
         else:
             return jsonify({'error': 'Failed to extract data from PDF'}), 500
     else:

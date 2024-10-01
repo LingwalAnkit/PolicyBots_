@@ -1,12 +1,12 @@
 # Policy Bot Project
 
 ## Overview
-This project is designed to assist users in navigating and understanding policies through a user-friendly interface. The system leverages Optical Character Recognition (OCR) and machine learning (ML) algorithms to analyze and interpret policy documents. The platform is built using **React.js** for the front-end, and it integrates a **Botpress chatbot** to offer real-time assistance, powered by the Botpress API.
+This project is designed to assist users in navigating and understanding policies through a user-friendly interface. The system leverages Optical Character Recognition (OCR) and machine learning (ML) algorithms to analyze and interpret policy documents. The platform is built using **React.js** for the front-end, and it integrates a **Real-time Chatbot** to offer real-time assistance, powered by the Botpress API.
 
 ## Features
 - **OCR Integration**: Extracts text from uploaded policy documents.
 - **Machine Learning Algorithms**: Different ML models are applied to analyze the policy text, identify key terms, classify policies, and provide insights.
-- **Interactive Chatbot**: A chatbot powered by the **Botpress API** helps users with policy-related queries, allowing for a smooth and interactive experience.
+- **Interactive Chatbot**: A chatbot powered by the Botpress API helps users with policy-related queries, allowing for a smooth and interactive experience.
 - **React.js Front-End**: The UI is built using React.js to ensure a responsive and intuitive design.
   
 ## Tech Stack
@@ -75,10 +75,8 @@ This project is designed to assist users in navigating and understanding policie
 This project is licensed under the MIT License.
 
 ## Contact
-For any issues or contributions, please reach out to [2eze4abhishek@gmail.com].
+For any issues or contributions, please reach out to [2eze4abhishek@gmail.com] or  [akshat.11319011622@ipu.ac.in] 
 
 ---
 
 
-demo123@gmail.com
-Demo@123321

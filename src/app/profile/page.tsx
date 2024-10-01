@@ -1,9 +1,6 @@
 'use client'
-<<<<<<< HEAD
-import React, { useState,  useEffect  } from 'react';
-=======
-import React, { useEffect, useState } from 'react';
->>>>>>> f0d3047896654f5d4ba1b48843c99b7735a9b8eb
+
+import React, { useState, useEffect } from 'react';
 import { Bell, User, ChevronRight, ClipboardList, Info, BadgeDollarSign, ArrowLeft, ArrowRight } from 'lucide-react';
 import { ThemeToggle } from '../../section/themeToggel';
 import Link from 'next/link';
@@ -11,6 +8,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { validationSchemas, initialValues } from './formvalidation';
 import useFormPersistence from './useFormPersistence';
 import PDFDownloadButton from './PDFDownloadButton';
+import axios from 'axios'; 
 
 const ProfilePage = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -26,25 +24,26 @@ const ProfilePage = () => {
   }, []);
 
   const nextStep = (values) => {
-    // Save current step data to localStorage
-
-
-    // Move to the next step
     setCurrentStep((prev) => Math.min(prev + 1, steps.length - 1));
   };
 
   const prevStep = () => setCurrentStep((prev) => Math.max(prev - 1, 0));
 
-  
-  const handleSubmit = (values, { setSubmitting }) => {
-    setPersistedValues(values);
+  const handleSubmit = async (values, { setSubmitting }) => {
     if (currentStep === steps.length - 1) {
-      localStorage.setItem(`step-${currentStep}`, JSON.stringify(values));
-      console.log('Form submitted', values);
-      // Handle form submission
+      try {
+        console.log('Submitting form data:', values);
+        const response = await axios.post('/api/profile', values);
+        console.log('Form submitted successfully:', response.data);
+        // Handle successful submission (e.g., show success message, redirect)
+        alert('Profile updated successfully!');
+        // You might want to redirect the user or update the UI here
+      } catch (error) {
+        console.error('Error submitting form:', error.response ? error.response.data : error.message);
+        alert('Error updating profile. Please try again.');
+        // Handle error (e.g., show error message)
+      }
     } else {
-      console.log(currentStep, steps.length);
-
       nextStep(values);
     }
     setSubmitting(false);
@@ -182,12 +181,6 @@ const ProfilePage = () => {
         return (
           <div className="space-y-4">
             <div className="flex items-center">
-              <Field type="checkbox" id="kycConsent" name="kycConsent" className="mr-2" />
-              <label htmlFor="kycConsent" className="dark:text-white">I consent to KYC verification</label>
-            </div>
-            <ErrorMessage name="kycConsent" component="div" className="text-red-500 text-sm" />
-
-            <div className="flex items-center">
               <Field type="checkbox" id="termsConditions" name="termsConditions" className="mr-2" />
               <label htmlFor="termsConditions" className="dark:text-white">I agree to the Terms and Conditions</label>
             </div>
@@ -199,53 +192,32 @@ const ProfilePage = () => {
     }
   };
 
-return (
-  <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
-    <header className="bg-white dark:bg-gray-800 pb-4 pt-1 flex justify-between items-center">
-      <div className="flex flex-col items-center pt-2 px-16">
-        <h1 className="dark:text-white">Policy Bots</h1>
-        <span className="ml-2 text-xs text-blue-600 font-semibold">HAR BOT HOGA INSURED</span>
-      </div>
-      <ThemeToggle />
-    </header>
+  return (
+    <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
+      <header className="bg-white dark:bg-gray-800 pb-4 pt-1 flex justify-between items-center">
+        <div className="flex flex-col items-center pt-2 px-16">
+          <h1 className="dark:text-white">Policy Bots</h1>
+          <span className="ml-2 text-xs text-blue-600 font-semibold">HAR BOT HOGA INSURED</span>
+        </div>
+        <ThemeToggle />
+      </header>
 
-<<<<<<< HEAD
-    <main className="container p-0 pt-8">
-      <div className="flex justify-between gap-8 -mx-16">
-        {/* Sidebar */}
-        <div className="w-1/3">
-          <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
-          <h1 className="text-2xl font-bold mb-2 dark:text-white">
-              Hi, {user ? `${user.firstName} ${user.lastName}` : 'Guest'}! 👋
-          </h1>
-            <p className="text-gray-600 dark:text-gray-300">How have you been?</p>
-            
-            <nav className="mt-6 space-y-2">
-                <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
-                  <Bell className="mr-2" size={20} />
-                  Dashboard
-=======
       <main className="container p-0 pt-8">
         <div className="flex justify-between gap-8 -mx-16">
           {/* Sidebar */}
           <div className="w-1/3">
             <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
-              <h1 className="text-2xl font-bold mb-2">Hi, Ankit! 👋</h1>
+              <h1 className="text-2xl font-bold mb-2 dark:text-white">
+                Hi, {user ? `${user.firstName} ${user.lastName}` : 'Guest'}! 👋
+              </h1>
               <p className="text-gray-600 dark:text-gray-300">How have you been?</p>
-
+              
               <nav className="mt-6 space-y-2">
-                <Link href="/dashboard">
-                  <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
-                    <Bell className="mr-2" size={20} />
-                    Dashboard
-                  </button>
-                </Link>
-                <button className="w-full text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
-                  <User className="mr-2" size={20} />
-                  Your policies
->>>>>>> f0d3047896654f5d4ba1b48843c99b7735a9b8eb
+                <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
+                  <Bell className="mr-2" size={20} />
+                  Dashboard
                 </button>
-                <Link href= "./AllPolicies" >
+                <Link href="./AllPolicies">
                   <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 rounded flex items-center">
                     <User className="mr-2" size={20} />
                     All Policies  
@@ -266,14 +238,12 @@ return (
                   Your Transactions
                 </button>
                 <Link href="/profile">
-                <button className="w-full mt-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-gray-800 rounded flex items-center">
-                  <User className="mr-2" size={20} />
-                  Profile
-                </button>
+                  <button className="w-full mt-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600 dark:text-gray-800 rounded flex items-center">
+                    <User className="mr-2" size={20} />
+                    Profile
+                  </button>
                 </Link>
               </nav>
-<<<<<<< HEAD
-=======
             </div>
           </div>
 
@@ -292,27 +262,13 @@ return (
               <h2 className="text-xl font-semibold mb-4 dark:text-white">{steps[currentStep]}</h2>
 
               {/* Form */}
-
               <Formik
-                initialValues={initialValues[currentStep]}
+                initialValues={persistedValues}
                 validationSchema={validationSchemas[currentStep]}
                 onSubmit={handleSubmit}
-                enableReinitialize={true} // To ensure form resets when currentStep changes
+                enableReinitialize
               >
-              
-                {({ errors, touched, isSubmitting, setValues }) => {
-                  
-
-                  useEffect(() => {
-                    const savedData = localStorage.getItem(`step-${currentStep}`);
-                    if (savedData) {
-                      const parsedData = JSON.parse(savedData);
-                      setValues(parsedData);  // Populate Formik form with retrieved data
-                    }
-                  }, [currentStep, setValues]);  // Add setValues to the dependency array
-
-
-                  return (
+                {({ errors, touched, isSubmitting }) => (
                   <Form className="space-y-6">
                     {renderStepContent(currentStep, errors, touched)}
 
@@ -325,6 +281,9 @@ return (
                       >
                         <ArrowLeft className="mr-2" size={20} /> Previous
                       </button>
+                      {currentStep === steps.length - 1 && (
+                        <PDFDownloadButton />
+                      )}
                       <button
                         type="submit"
                         disabled={isSubmitting}
@@ -334,66 +293,19 @@ return (
                       </button>
                     </div>
                   </Form>
-                )}}
+                )}
               </Formik>
             </div>
->>>>>>> f0d3047896654f5d4ba1b48843c99b7735a9b8eb
           </div>
         </div>
+      </main>
 
-        <div className="w-2/3">
-          <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
-            <h1 className="text-2xl font-bold mb-2 dark:text-white">Profile</h1>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">Complete your profile information</p>
-
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6 dark:bg-gray-700">
-              <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${(currentStep + 1) / steps.length * 100}%` }}></div>
-            </div>
-            <h2 className="text-xl font-semibold mb-4 dark:text-white">{steps[currentStep]}</h2>
-
-            <Formik
-              initialValues={persistedValues}
-              validationSchema={validationSchemas[currentStep]}
-              onSubmit={handleSubmit}
-              enableReinitialize
-            >
-              {({ errors, touched, isSubmitting }) => (
-                <Form className="space-y-6">
-                  {renderStepContent(currentStep, errors, touched)}
-
-                  <div className="flex justify-between mt-6">
-                    <button
-                      type="button"
-                      onClick={prevStep}
-                      className={`px-4 py-2 flex items-center ${currentStep === 0 ? 'invisible' : ''}`}
-                    >
-                      <ArrowLeft className="mr-2" size={20} /> Previous
-                    </button>
-                    {currentStep === steps.length - 1 && (
-                        <PDFDownloadButton />
-                      )}
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
-                    >
-                      {currentStep === steps.length - 1 ? 'Submit' : 'Next'} {currentStep !== steps.length - 1 && <ArrowRight className="ml-2" size={20} />}
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <footer className="text-center p-4 text-sm text-gray-600 dark:text-gray-400">
-      <a href="#" className="mr-4 hover:text-gray-800 dark:hover:text-gray-200">Disclaimer</a>
-      <a href="#" className="hover:text-gray-800 dark:hover:text-gray-200">Privacy policy</a>
-    </footer>
-  </div>
-);
+      <footer className="text-center p-4 text-sm text-gray-600 dark:text-gray-400">
+        <a href="#" className="mr-4 hover:text-gray-800 dark:hover:text-gray-200">Disclaimer</a>
+        <a href="#" className="hover:text-gray-800 dark:hover:text-gray-200">Privacy policy</a>
+      </footer>
+    </div>
+  );
 };
 
 export default ProfilePage;

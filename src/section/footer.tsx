@@ -98,12 +98,40 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="mt-8 text-sm">
-          <p>Policy Bots Insurance Brokers Private Limited Registered Office - Boys Hostel G-114, USAR , Shahdara 110032, Delhi , Email ID: enquiry@policybots.com</p>
-          <p className="mt-2">Policy Bots is registered as a Composite Broker | Registration No. 121, Registration Code No. IRDA/ DB 797/ 19, Valid till 09/06/2027, License category- Composite Broker</p>
-          <p className="mt-2">Visitors are hereby informed that their information submitted on the website may be shared with insurers.Product information is authentic and solely based on the information received from the insurers.</p>
-          <p className="mt-4">© Copyright 2024- Till Eternity policybots.com. All Rights Reserved.</p>
-        </div>
+        <div className=" mx-0 flex flex-col items-center">
+        <h1 className="text-3xl font-bold mb-4">Policy Bots Insurance Brokers: Where Insurance Meets Sass</h1>
+        
+        <p className="mb-2">Registered Office: Boys Hostel G-114, IIT Shahdara, Delhi 110032</p>
+        <p className="mb-2"><strong>(Yeah, we&apos;er fancy like that)</strong></p>
+        <p className="mb-2">Email: <a href="mailto:enquiry@policybots.com" className="text-blue-500 hover:underline">enquiry@policybots.com</a></p>
+        <p className="mb-2"><strong>(We promise to read your emails... eventually)</strong></p>
+
+        <h2 className="text-2xl font-semibold mt-6 mb-4">The Boring (But Important) Stuff</h2>
+        <p>We&apos;re registered as a Composite Broker, because why settle for just one type of insurance when you can have them all?</p>
+        <p className="mb-2">Registration No. 121 <span className="italic">(It&apos;s like 007, but with less espionage and more paperwork)</span></p>
+        <p className="mb-2">Registration Code No. IRDA/ DB 797/ 19 <span className="italic">(Try saying that five times fast)</span></p>
+        <p className="mb-2">Valid till 09/06/20?? <span className="italic">(Mark your calendars, folks!)</span></p>
+        <p className="mb-2">License category: Composite Broker <span className="italic">(We&apos;re versatile, just like your excuses for not buying insurance)</span></p>
+
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Fair Warning</h2>
+        <p className="mb-2">Visitors beware: Your information might be shared with insurers. Don&apos;t worry, they&apos;re not as scary as they sound... most of the time.</p>
+        <p className="mb-2">Our product info is 100% authentic, straight from the insurers&apos; mouths. We&apos;re just the fabulous messengers.</p>
+
+        <footer className="mt-6 border-t pt-4">
+            <p className="mb-2">© Copyright 2024 - Till the End of Time <span className="italic">(or until the next big asteroid, whichever comes first)</span></p>
+            <p className="mb-2"><a href="https://policybots.com" className="text-blue-500 hover:underline">policybots.com</a>. All Rights Reserved.</p>
+        </footer>
+
+        <h2 className="text-2xl font-semibold mt-6 mb-4">Created by the Team BotGods:</h2>
+        <ul className="list-disc list-inside mb-2">
+            <li>Akshat Saraswat</li>
+            <li>Abhishek Chaudhary</li>
+            <li>Sanyam Pandey</li>
+            <li>Ankit Lingwal</li>
+        </ul>
+
+        <p className="mt-4"><strong>Remember, we&apos;re here to make insurance sexy. Or at least slightly less boring.</strong></p>
+      </div>
       </div>
     </footer>
   );

@@ -12,23 +12,43 @@ const ChatbotIntegration = () => {
         document.body.appendChild(script);
 
         script.onload = () => {
-          const configScript = document.createElement('script');
-          configScript.src = 'https://mediafiles.botpress.cloud/c8a1ffdc-e1b8-42bc-9e42-028c32066dd9/webchat/config.js';
-          configScript.async = true;
-          document.body.appendChild(configScript);
-
-          configScript.onload = () => {
+          // Wait for the window.botpressWebChat to be available
+          const checkBotpressAvailability = setInterval(() => {
             if (window.botpressWebChat) {
+              clearInterval(checkBotpressAvailability);
+              
               window.botpressWebChat.init({
-                hideWidget: true, // Hide the widget by default
-                disableAnimations: true, // Disable animations to prevent flickering
+                "composerPlaceholder": "Chat with bot",
+                "botConversationDescription": "This chatbot was built surprisingly fast with Botpress",
+                "botId": "c8a1ffdc-e1b8-42bc-9e42-028c32066dd9",
+                "hostUrl": "https://cdn.botpress.cloud/webchat/v1",
+                "messagingUrl": "https://messaging.botpress.cloud",
+                "clientId": "c8a1ffdc-e1b8-42bc-9e42-028c32066dd9",
+                "webhookId": "4c921d5f-08c6-4cd1-831e-46a43ce83fcd",
+                "lazySocket": true,
+                "themeName": "prism",
+                "frontendVersion": "v1",
+                "showPoweredBy": true,
+                "theme": "prism",
+                "themeColor": "#2563eb",
+                "hideWidget": false,
+                "disableAnimations": false,
+                "closeOnEscape": false,
+                "showConversationsButton": true,
+                "enableTranscriptDownload": false,
+                "className": "webchat-injection",
+                "containerWidth": "100%25",
+                "layoutWidth": "100%25",
+                "showCloseButton": true
               });
+
               console.log('Botpress WebChat initialized successfully');
               setIsChatbotLoaded(true);
-            } else {
-              console.error('Botpress WebChat is still not available after loading scripts');
             }
-          };
+          }, 100);
+
+          // Set a timeout to avoid infinite checking
+          setTimeout(() => clearInterval(checkBotpressAvailability), 10000);
         };
       };
 

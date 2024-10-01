@@ -67,8 +67,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'Database operation failed', error: dbError.message }, { status: 500 });
     }
 
-  } catch (error) {
-    console.error('Error in user registration:', error);
-    return NextResponse.json({ message: 'Internal server error', error: error.message }, { status: 500 });
+  } catch (dbError) {
+    console.error('Database operation failed:', dbError);
+    if (dbError.code === 11000) {
+      return NextResponse.json({ message: 'Email already in use' }, { status: 409 });
+    }
+    return NextResponse.json({ message: 'Database operation failed', error: dbError.message }, { status: 500 });
   }
 }

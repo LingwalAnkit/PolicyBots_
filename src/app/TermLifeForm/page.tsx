@@ -1,15 +1,45 @@
-'use client';
-
+"use client"
 import React, { useState } from 'react';
+
+const formFields = {
+  personalInfo: ['fullName', 'dateOfBirth', 'gender', 'maritalStatus', 'occupation'],
+  contactInfo: ['address', 'mobileNumber', 'email'],
+  identificationInfo: ['aadhaarNumber', 'panNumber'],
+  financialInfo: ['incomeRange', 'policyPremiumFrequency'],
+  nomineeInfo: ['nomineeName', 'nomineeRelationship', 'nomineeDateOfBirth'],
+  vehicleInfo: ['vehicleRegistrationNumber', 'vehicleModelMake', 'vehicleManufactureYear'],
+  propertyInfo: ['landRegistrationNumber', 'landLocation', 'landArea']
+};
+
+const stepTitles = {
+  personalInfo: 'Personal Information',
+  contactInfo: 'Contact Information',
+  identificationInfo: 'Identification',
+  financialInfo: 'Financial Information',
+  nomineeInfo: 'Nominee Details',
+  vehicleInfo: 'Vehicle Information',
+  propertyInfo: 'Property Information'
+};
 
 export default function Home() {
   const [file, setFile] = useState(null);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    fullName: '', dateOfBirth: '', gender: '', address: '', aadhaarNumber: '',
+    panNumber: '', mobileNumber: '', email: '', maritalStatus: '', occupation: '',
+    incomeRange: '', policyPremiumFrequency: '', nomineeName: '', nomineeRelationship: '',
+    nomineeDateOfBirth: '', vehicleRegistrationNumber: '', vehicleModelMake: '',
+    vehicleManufactureYear: '', landRegistrationNumber: '', landLocation: '', landArea: ''
+  });
   const [message, setMessage] = useState('');
+  const [currentStep, setCurrentStep] = useState('personalInfo');
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
@@ -33,8 +63,7 @@ export default function Home() {
       }
 
       const data = await response.json();
-      setName(data.name);
-      setEmail(data.email);
+      setFormData(data);
       setMessage('Data extracted successfully');
     } catch (error) {
       setMessage('Error uploading file');
@@ -48,49 +77,74 @@ export default function Home() {
     setMessage('Form submitted successfully');
   };
 
+  const renderFormFields = (stepFields) => {
+    return stepFields.map(field => (
+      <div key={field} className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={field}>
+          {field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id={field}
+          name={field}
+          type="text"
+          value={formData[field]}
+          onChange={handleInputChange}
+        />
+      </div>
+    ));
+  };
+
+  const nextStep = () => {
+    const steps = Object.keys(formFields);
+    const currentIndex = steps.indexOf(currentStep);
+    if (currentIndex < steps.length - 1) {
+      setCurrentStep(steps[currentIndex + 1]);
+    }
+  };
+
+  const prevStep = () => {
+    const steps = Object.keys(formFields);
+    const currentIndex = steps.indexOf(currentStep);
+    if (currentIndex > 0) {
+      setCurrentStep(steps[currentIndex - 1]);
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <form onSubmit={handleSubmit} className="w-full max-w-lg mb-8">
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="file">
-              Upload PDF
-            </label>
-            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="file" type="file" onChange={handleFileChange} accept=".pdf" />
-          </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="file">
+            Upload PDF
+          </label>
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="file" type="file" onChange={handleFileChange} accept=".pdf" />
         </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Extract Data
-            </button>
-          </div>
+        <div className="flex items-center justify-between">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            Extract Data
+          </button>
         </div>
       </form>
 
       <form onSubmit={handleFormSubmit} className="w-full max-w-lg">
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="name">
-              Name
-            </label>
-            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} />
-          </div>
-        </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="email">
-              Email
-            </label>
-            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </div>
-        </div>
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full px-3">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Submit Form
+        <h2 className="text-2xl font-bold mb-4">{stepTitles[currentStep]}</h2>
+        {renderFormFields(formFields[currentStep])}
+        <div className="flex items-center justify-between mt-6">
+          {currentStep !== 'personalInfo' && (
+            <button type="button" onClick={prevStep} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Previous
             </button>
-          </div>
+          )}
+          {currentStep !== 'propertyInfo' ? (
+            <button type="button" onClick={nextStep} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Next
+            </button>
+          ) : (
+            <button type="submit" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              Submit
+            </button>
+          )}
         </div>
       </form>
 

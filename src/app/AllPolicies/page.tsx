@@ -41,12 +41,12 @@ const AllPolicies = () => {
               <p className="text-gray-600 dark:text-white">How have you been?</p>
 
               <nav className="mt-6 space-y-2">
-                <button className="w-full mb-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                   <Bell className="mr-2" size={20} />
                   Dashboard
                 </button>
                 <Link href="./AllPolicies" >
-                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                  <button className="w-full mb-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                     <User className="mr-2" size={20} />
                     All Policies
                   </button>
@@ -62,8 +62,7 @@ const AllPolicies = () => {
                   Get help
                 </button>
                 <Link href='/transactions'>
-
-                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                  <button className="w-full mb-2 mt-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                     <BadgeDollarSign className="mr-2" size={20} />
                     Your Transactions
                   </button>
@@ -81,11 +80,13 @@ const AllPolicies = () => {
 
           <div className='w-2/3'>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <InsuranceOption
-                title="Term Life Insurance"
-                description="Financially secure your loved ones for life after you"
-                icon={<User size={48} />}
-              />
+              <Link href= '/TermLifeForm'>
+                <InsuranceOption
+                  title="Term Life Insurance"
+                  description="Financially secure your loved ones for life after you"
+                  icon={<User size={48} />}
+                />
+              </Link>
               <InsuranceOption
                 title="Health Insurance"
                 description="Financial protection against rising medical costs"

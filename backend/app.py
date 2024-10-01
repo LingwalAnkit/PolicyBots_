@@ -28,16 +28,30 @@ def extract_data_from_pdf(pdf_file):
             'maritalStatus': r'maritalStatus:\s*(.+)',
             'occupation': r'occupation:\s*(.+)',
             'incomeRange': r'incomeRange:\s*(.+)',
-            'policyPremiumFrequency': r'policyPremiumFrequency:\s*(.+)',
+            'bankAccountNumber': r'bankAccountNumber:\s*(.+)',
+            'ifscCode': r'ifscCode:\s*(.+)',
+            'isSmoker': r'isSmoker:\s*(.+)',
+            'alcoholConsumption': r'alcoholConsumption:\s*(.+)',
+            'preExistingConditions': r'preExistingConditions:\s*(.+)',
+            'conditionsDetails': r'conditionsDetails:\s*(.+)',
+            'familyMedicalHistory': r'familyMedicalHistory:\s*(.+)',
+            'numberOfDependents': r'numberOfDependents:\s*(.+)',
+            'previousInsuranceClaims': r'previousInsuranceClaims:\s*(.+)',
+            'height': r'height:\s*(.+)',
+            'weight': r'weight:\s*(.+)',
+            'bloodGroup': r'bloodGroup:\s*(.+)',
             'nomineeName': r'nomineeName:\s*(.+)',
             'nomineeRelationship': r'nomineeRelationship:\s*(.+)',
             'nomineeDateOfBirth': r'nomineeDateOfBirth:\s*(.+)',
+            'nomineeIdentification': r'nomineeIdentification:\s*(.+)',
             'vehicleRegistrationNumber': r'vehicleRegistrationNumber:\s*(.+)',
             'vehicleModelMake': r'vehicleModelMake:\s*(.+)',
             'vehicleManufactureYear': r'vehicleManufactureYear:\s*(.+)',
             'landRegistrationNumber': r'landRegistrationNumber:\s*(.+)',
             'landLocation': r'landLocation:\s*(.+)',
-            'landArea': r'landArea:\s*(.+)'
+            'landArea': r'landArea:\s*(.+)',
+            'kycConsent': r'kycConsent:\s*(.+)',
+            'termsConditions': r'termsConditions:\s*(.+)'
         }
 
         # Extract data for all fields

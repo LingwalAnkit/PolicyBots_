@@ -48,7 +48,7 @@ const Dashboard = () => {
                 </button>
                 <Link href='/transactions'>
 
-                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                  <button className="w-full mb-2 mt-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                     <BadgeDollarSign className="mr-2" size={20} />
                     Your Transactions
                   </button>
@@ -106,7 +106,9 @@ const Dashboard = () => {
                   <h2 className="text-lg font-semibold dark:text-[#F9FAFB]">You do not have any policies yet!</h2>
                   <p className="text-gray-600">Buy an insurance policy to protect your family & assets now</p>
                 </div>
-                <button className="font-bold border dark:border-zinc-950 border-blue-400 text-blue-400 px-4 py-1 rounded mt-2 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white dark:hover:bg-slate-300 dark:hover:text-gray-900 dark:text-[#F9FAFB]">Explore</button>
+                <Link href= '/AllPolicies'>
+                  <button className="font-bold border dark:border-zinc-950 border-blue-400 text-blue-400 px-4 py-1 rounded mt-2 transition duration-300 ease-in-out hover:bg-blue-500 hover:text-white dark:hover:bg-slate-300 dark:hover:text-gray-900 dark:text-[#F9FAFB]">Explore</button>
+                </Link>
               </div>
             </div>
 

@@ -26,10 +26,13 @@ const Policies = () => {
               <p className="text-gray-600 dark:text-white">How have you been?</p>
 
               <nav className="mt-6 space-y-2">
-                <button className="w-full mb-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
-                  <Bell className="mr-2" size={20} />
-                  Dashboard
-                </button>
+
+                <Link href= '/dashboard'>
+                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                    <Bell className="mr-2" size={20} />
+                    Dashboard
+                  </button>
+                </Link>
                 <Link href="./AllPolicies" >
                   <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                     <User className="mr-2" size={20} />
@@ -37,7 +40,7 @@ const Policies = () => {
                   </button>
                 </Link>
                 <Link href="/policies">
-                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                  <button className="w-full mb-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                     <ClipboardList className="mr-2" size={20} />
                     Your policies
                   </button>
@@ -47,8 +50,7 @@ const Policies = () => {
                   Get help
                 </button>
                 <Link href='/transactions'>
-
-                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                  <button className="w-full mb-2 mt-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                     <BadgeDollarSign className="mr-2" size={20} />
                     Your Transactions
                   </button>
@@ -84,7 +86,7 @@ const Policies = () => {
                     <p className="text-sm text-gray-600">Buy an insurance policy to protect your family & assets now</p>
                   </div>
                 </div>
-                <Link href='/all-policies'>
+                <Link href='/AllPolicies'>
                   <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                     Explore
                   </button>

@@ -1,5 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { Bell, User, ChevronRight, ClipboardList, Info, BadgeDollarSign } from 'lucide-react';
+import Link from 'next/link';
 import { ThemeToggle } from "../../section/themeToggel";
 import PDFDownloadButton from './PDFDownloadButton'
 
@@ -405,9 +407,6 @@ const MultiStepForm = () => {
                 <option value="regular">O-</option>
               </select>
             </div>
-            {/*
-    bloodGroup: '',
-    allergies: */}
           </div>
         );
       case 3:
@@ -595,43 +594,110 @@ const MultiStepForm = () => {
     localStorage.setItem('userdata', JSON.stringify(formData))
   };
 
+  const user = JSON.parse(localStorage.getItem('user')) || { firstName: 'User', lastName: '' };
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-2xl mx-auto mt-16 mb-16 p-6 bg-white rounded-lg shadow-md"
-    >
-      {renderStep()}
-      <div className="mt-6 flex justify-between">
-        {step > 1 && (
-          <button
-            type="button"
-            onClick={prevStep}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
-          >
-            Previous
-          </button>
-        )}
-        {step < 5 ? (
-          <button
-            type="button"
-            onClick={nextStep}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Next
-          </button>
-        ) : (
-          <>
-          <PDFDownloadButton />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-          >
-            Submit
-          </button>
-          </>
-        )}
-      </div>
-    </form>
+    <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
+      <header className="bg-white dark:bg-gray-800 pb-4 pt-1 flex justify-between items-center">
+        <div className="flex flex-col items-center pt-2 px-16">
+          <h1 className='dark:text-white'>Policy Bots</h1>
+          <span className="ml-2 text-xs text-blue-600 font-semibold dark:text-[#A9D6E5]">HAR BOT HOGA INSURED</span>
+        </div>
+        <ThemeToggle />
+      </header>
+
+      <main className="container p-0 pt-8">
+        <div className='flex justify-between gap-8 -mx-16'>
+          <div className='w-1/3'>
+            <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
+              <h1 className="text-2xl font-bold mb-2 dark:text-[#F9FAFB]">Hi, {user.firstName} {user.lastName}! 👋</h1>
+              <p className="text-gray-600 dark:text-white">How have you been?</p>
+
+              <nav className="mt-6 space-y-2">
+                <Link href="/dashboard">
+                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                    <Bell className="mr-2" size={20} />
+                    Dashboard
+                  </button>
+                </Link>
+                <Link href="./AllPolicies" >
+                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                    <User className="mr-2" size={20} />
+                    All Policies
+                  </button>
+                </Link>
+                <Link href="/policies">
+                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                    <ClipboardList className="mr-2" size={20} />
+                    Your policies
+                  </button>
+                </Link>
+                <button className="w-full text-left mb-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                  <Info className="mr-2" size={20} />
+                  Get help
+                </button>
+                <Link href='/transactions'>
+                  <button className="w-full mb-2 mt-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                    <BadgeDollarSign className="mr-2" size={20} />
+                    Your Transactions
+                  </button>
+                </Link>
+                <Link href="/profile">
+                  <button className="w-full mb-2 mt-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                    <User className="mr-2" size={20} />
+                    Profile
+                  </button>
+                </Link>
+              </nav>
+            </div>
+          </div>
+
+          <div className='w-2/3'>
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6"
+            >
+              {renderStep()}
+              <div className="mt-6 flex justify-between">
+                {step > 1 && (
+                  <button
+                    type="button"
+                    onClick={prevStep}
+                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+                  >
+                    Previous
+                  </button>
+                )}
+                {step < 5 ? (
+                  <button
+                    type="button"
+                    onClick={nextStep}
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <>
+                    <PDFDownloadButton />
+                    <button
+                      type="submit"
+                      className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700"
+                    >
+                      Submit
+                    </button>
+                  </>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <footer className="text-center p-4 text-sm text-gray-600 dark:text-gray-400">
+        <a href="#" className="mr-4">Disclaimer</a>
+        <a href="#">Privacy policy</a>
+      </footer>
+    </div>
   );
 };
 

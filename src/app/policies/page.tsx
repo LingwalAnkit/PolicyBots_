@@ -1,4 +1,5 @@
-"use client"
+"use client";
+
 import React from 'react';
 import { Bell, User, ChevronRight, ClipboardList, Info, BadgeDollarSign, PlusIcon } from 'lucide-react';
 import { ThemeToggle } from '../../section/themeToggel';
@@ -6,6 +7,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const Policies = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
   return (
     <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
       <header className="bg-white dark:bg-gray-800 pb-4 pt-1 flex justify-between items-center">
@@ -18,9 +20,9 @@ const Policies = () => {
 
       <main className="container mx-auto p-0 pt-8">
         <div className="flex justify-between gap-8 -mx-16">
-          <div className='w-1/3'>
+        <div className='w-1/3'>
             <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
-              <h1 className="text-2xl font-bold mb-2 dark:text-[#F9FAFB]">Hi, Ankit! 👋</h1>
+              <h1 className="text-2xl font-bold mb-2 dark:text-[#F9FAFB]">Hi, {user.firstName} {user.lastName}! 👋</h1>
               <p className="text-gray-600 dark:text-white">How have you been?</p>
 
               <nav className="mt-6 space-y-2">
@@ -44,10 +46,14 @@ const Policies = () => {
                   <Info className="mr-2" size={20} />
                   Get help
                 </button>
-                <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
-                  <BadgeDollarSign className="mr-2" size={20} />
-                  Your Transactions
-                </button>
+                <Link href='/transactions'>
+
+                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                    <BadgeDollarSign className="mr-2" size={20} />
+                    Your Transactions
+                  </button>
+
+                </Link>
                 <Link href="/profile">
                   <button className="w-full mt-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                     <User className="mr-2" size={20} />

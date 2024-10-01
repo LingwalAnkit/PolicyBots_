@@ -31,10 +31,12 @@ const Policies = () => {
                             <p className="text-gray-600 dark:text-white">How have you been?</p>
 
                             <nav className="mt-6 space-y-2">
+                                <Link href="/dashboard">
                                 <button className="w-full mb-2 text-left p-2 bg-blue-50 dark:bg-gray-500 text-blue-600  dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                                     <Bell className="mr-2" size={20} />
                                     Dashboard
                                 </button>
+                                </Link>
                                 <Link href="./AllPolicies" >
                                     <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                                         <User className="mr-2" size={20} />

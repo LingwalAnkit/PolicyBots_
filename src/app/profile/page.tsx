@@ -14,7 +14,7 @@ const ProfilePage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const steps = ['Personal Information', 'Nominee details', 'Assets', 'Declaration and Consent'];
   const [persistedValues, setPersistedValues] = useFormPersistence('profileFormData', initialValues);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -207,7 +207,7 @@ const ProfilePage = () => {
           {/* Sidebar */}
           <div className='w-1/3'>
             <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
-              <h1 className="text-2xl font-bold mb-2 dark:text-[#F9FAFB]">Hi, Ankit! 👋</h1>
+              <h1 className="text-2xl font-bold mb-2 dark:text-[#F9FAFB]">Hi, {user.firstName} {user.lastName}! 👋</h1>
               <p className="text-gray-600 dark:text-white">How have you been?</p>
 
               <nav className="mt-6 space-y-2">
@@ -231,10 +231,14 @@ const ProfilePage = () => {
                   <Info className="mr-2" size={20} />
                   Get help
                 </button>
-                <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
-                  <BadgeDollarSign className="mr-2" size={20} />
-                  Your Transactions
-                </button>
+                <Link href='/transactions'>
+
+                  <button className="w-full mb-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
+                    <BadgeDollarSign className="mr-2" size={20} />
+                    Your Transactions
+                  </button>
+
+                </Link>
                 <Link href="/profile">
                   <button className="w-full mt-2 text-left p-2 hover:bg-gray-100 dark:hover:bg-gray-500 dark:text-[#F9FAFB] dark:font-semibold rounded flex items-center">
                     <User className="mr-2" size={20} />

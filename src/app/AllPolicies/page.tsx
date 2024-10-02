@@ -14,9 +14,15 @@ const InsuranceOption = ({ title, description, icon }) => (
   </div>
 );
 
+interface User {
+  firstName: string;
+  lastName: string;
+}
 const AllPolicies = () => {
-
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<User>({
+    firstName: '', 
+    lastName: '', 
+  });
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {

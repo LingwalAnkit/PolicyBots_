@@ -12,7 +12,22 @@ const transactions = [
     { id: 'TRX789012',policyname: 'Life Insurance', date: '2023-09-20', amount: '₹ 1,200.00', status: 'Completed' },
 ];
 
-const Policies = () => {
+interface User {
+    firstName: string;
+    lastName: string;
+  }
+
+const AllPolicies = () => {
+    const [user, setUser] = useState<User>({
+      firstName: '', 
+      lastName: '', 
+    });
+    useEffect(() => {
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    }, []);
     return (
         <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
             <header className="bg-white dark:bg-gray-800 pb-4 pt-1 flex justify-between items-center">
@@ -27,7 +42,7 @@ const Policies = () => {
                 <div className="flex justify-between gap-8 -mx-16">
                     <div className='w-1/3'>
                         <div className="bg-white dark:bg-gray-600 rounded-lg shadow p-6 mb-6">
-                            <h1 className="text-2xl font-bold mb-2 dark:text-[#F9FAFB]">Hi, Ankit! 👋</h1>
+                        <h1 className="text-2xl font-bold mb-2 dark:text-[#F9FAFB]">Hi, {user.firstName} {user.lastName}! 👋</h1>
                             <p className="text-gray-600 dark:text-white">How have you been?</p>
 
                             <nav className="mt-6 space-y-2">
@@ -117,4 +132,4 @@ const Policies = () => {
     );
 };
 
-export default Policies;
+export default AllPolicies;

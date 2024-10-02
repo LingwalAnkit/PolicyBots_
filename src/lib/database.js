@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = 'mongodb://localhost:27017/PolicyBots';
+// const MONGODB_URI = 'process.env.';
 
 let cached = global.mongoose;
 
@@ -18,7 +18,7 @@ async function dbConnect() {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
       return mongoose;
     });
   }

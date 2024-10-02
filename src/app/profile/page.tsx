@@ -174,7 +174,7 @@ const MultiStepForm = () => {
                 Pan Number
               </label>
               <input
-                type="number"
+                type="text"
                 id="panNumber"
                 name="panNumber"
                 value={formData.panNumber}

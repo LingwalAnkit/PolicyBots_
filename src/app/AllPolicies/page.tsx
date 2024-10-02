@@ -93,31 +93,41 @@ const AllPolicies = () => {
                   icon={<User size={48} />}
                 />
               </Link>
+              <Link href= '/TermLifeForm'>
               <InsuranceOption
                 title="Health Insurance"
                 description="Financial protection against rising medical costs"
                 icon={<HeartPulse size={48} />}
               />
+              </Link>
+              <Link href= '/TermLifeForm'>
               <InsuranceOption
                 title="2 Wheeler Insurance"
                 description="360° protection for your bike against challans & accidents"
                 icon={<Bike size={48} />}
               />
+              </Link>
+              <Link href= '/TermLifeForm'>
               <InsuranceOption
                 title="Investment Plans"
                 description="Grow your wealth & become financially independent"
                 icon={<DollarSign size={48} />}
               />
+              </Link>
+              <Link href= '/TermLifeForm'>
               <InsuranceOption
                 title="Car Insurance"
                 description="Instantly buy or renew insurance for your car"
                 icon={<Car size={48} />}
               />
+              </Link>
+              <Link href= '/TermLifeForm'>
               <InsuranceOption
                 title="Travel Insurance"
                 description="Secures you, your flights & bags to ensure you enjoy your trip"
                 icon={<Plane size={48} />}
               />
+              </Link>
             </div>
           </div>
 

@@ -27,6 +27,9 @@ const nextConfig = {
     images: {
       domains: ['assets.aceternity.com'],
       domains: ['via.placeholder.com'],
+    },eslint: {
+      // Ignore 'venv' folder for ESLint
+      ignoreDuringBuilds: true,
     },
   };
   

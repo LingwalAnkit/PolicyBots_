@@ -5,7 +5,22 @@ import Link from 'next/link';
 import { ThemeToggle } from "../../section/themeToggel";
 import PDFDownloadButton from './PDFDownloadButton'
 
+interface User {
+  firstName: string;
+  lastName: string;
+}
+
 const MultiStepForm = () => {
+  const [user, setUser] = useState<User>({
+    firstName: '', 
+    lastName: '', 
+  });
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     // Personal Information
@@ -593,8 +608,6 @@ const MultiStepForm = () => {
     // Here you would typically send the data to a server
     localStorage.setItem('userdata', JSON.stringify(formData))
   };
-
-  const user = JSON.parse(localStorage.getItem('user')) || { firstName: 'User', lastName: '' };
 
   return (
     <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">

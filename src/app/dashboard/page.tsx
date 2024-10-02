@@ -1,13 +1,27 @@
 'use client'
 
-import React from 'react';
+import React ,{useState , useEffect} from 'react';
 import { Bell, User, ChevronRight, ClipboardList, Info, BadgeDollarSign } from 'lucide-react';
 import { ThemeToggle } from '../../section/themeToggel';
 import Link from 'next/link';
 
-const Dashboard = () => {
+interface User {
+  firstName: string;
+  lastName: string;
+}
 
-  const user = JSON.parse(localStorage.getItem('user'));
+const Dashboard = () => {
+  const [user, setUser] = useState<User>({
+    firstName: '', 
+    lastName: '', 
+  });
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   return (
     <div className="bg-gray-100 dark:bg-gray-700 min-h-screen">
       <header className="bg-white dark:bg-gray-800 pb-4 pt-1 flex justify-between items-center">
